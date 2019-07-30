@@ -1,0 +1,138 @@
+* {
+	margin: 0;
+}
+
+body {
+	display: grid;
+	grid-template-columns: 35% auto;
+	grid-template-rows: 10% auto;
+	grid-template-areas: 
+			"head head head" 
+			"sidebar card card"
+			"sidebar card card";
+	height: 100vh;
+}
+
+header {
+	display: flex;
+	justify-content: row;
+	grid-area: head;
+	background-color: #1F1F3D;
+}
+
+span {
+	color: #FFC30C;
+}
+
+h4 {
+	color: #FFFFFF;
+	font-size: 15px;
+}
+
+input {
+	border-radius: 2px;
+	border: 1px solid #1F1F3D;
+	font-size: 25px;
+}
+
+.nav_bar {
+	grid-area: sidebar;
+	background-color: #587A8A;
+	padding: 5%;
+}
+
+.task_card-display {
+	display: flex;
+	flex-wrap: wrap;
+	grid-area: card;
+	background-color: #F3F6F7;
+}
+
+.header_search-input {
+	display: flex;
+	margin-left: 45%;
+	margin-top: 1%;
+	width: 25%;
+	height: 55%;
+}
+
+.header-title {
+	color: #FFFFFF;
+  margin-top: 20px;
+  margin-left: 2%;
+  }
+
+button {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	height: 8%;
+	margin: 5% 0;
+	border: 1px solid #1F1F3D;
+	border-radius: 5px;
+	background-color: #1F1F3D;
+	color: #FFFFFF;
+	font-size: 25px;
+}
+
+.nav_task-title-input,
+.nav_task-item-input {
+	width: 100%;
+	height: 8%;
+	margin: 2% 0;
+}
+
+.task_card-id {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid black;
+	width: 30%;
+	height: 40%;
+	margin: 2%;
+	background-color: #FFE89D;
+}
+
+h2 {
+	color: #1F1F3D;
+	font-size: 25px;
+	align-items: center;
+	padding-left: 35%;
+}
+
+.task_card-urgent {
+	color: #B23A25;
+	background-color: #FFE89D;
+	width: 20%;
+	height: 20%;
+	padding: 5%;
+}
+
+.task_card-delete {
+	color: #1F1F3D;
+	background-color: #FFE89D;
+	width: 20%;
+	height: 20%;
+	padding: 5%;
+}
+
+.task_card-check {
+	background-color: #FFFFFF;
+	border-radius: 100%;
+	width: 15%;
+	height: 27px;
+}
+
+.task_card-footer-container {
+	display: flex;
+	flex-direction: row;
+	padding: 5%;
+	justify-content: space-around;
+	margin-top: 40%;
+}
+
+.task_card-task-container {
+	display: flex;
+	flex-direction: row;
+	padding: 5%;
+	margin-top: 10%;
+}
