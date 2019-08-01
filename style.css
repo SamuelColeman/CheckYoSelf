@@ -220,3 +220,14 @@ h2 {
 .task__card_check_icon {
 	width: 100%;
 }
+
+.task__card_urgent,
+.task__card_delete {
+	display: flex;
+	flex-direction: row;
+}
+
+.task__card_delete_icon,
+.task__card_urgent_icon {
+	width: 100%;
+}

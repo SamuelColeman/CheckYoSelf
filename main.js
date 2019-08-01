@@ -5,11 +5,13 @@ var navTaskTitleInput = document.querySelector('.nav__task_title_input')
 var navTaskItemInput = document.querySelector('.nav__task_item_input');
 var navMakeTaskBtn = document.querySelector('.nav__make_task_btn');
 var navTaskList = document.querySelector('.nav__task_list');
-var navTaskItemBtn = document.querySelector('.nav__task_item_btn')
+var navTaskItemBtn = document.querySelector('.nav__task_item_btn');
+var navExitBtn = document.querySelector('.nav__exit_btn');
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
 taskCardDisplay.addEventListener('click', cardEventHandler);
 navTaskItemBtn.addEventListener('click', createTaskList);
+navTaskList.addEventListener('click', taskEventHandler);
 window.addEventListener('load', pageLoad);
 
 function pageLoad(){
@@ -19,8 +21,14 @@ function pageLoad(){
 };
 
 function cardEventHandler(event) {
-	if (event.target.classList.contains('task__card_delete')) {
+	if (event.target.classList.contains('task__card_delete_icon')) {
     deleteCard(event);
+  };
+}
+
+function taskEventHandler(event) {
+	if (event.target.classList.contains('nav__exit_icon')) {
+    deleteTask(event);
   };
 }
 
@@ -86,7 +94,7 @@ function newTask(tasks) {
 	for (var i = 0; i < tasks.length; i++) {
 			newTaskList += `<li class="card__task" data-id=${tasks.id}>
 				<button class="task__card_check" type="button"><img class="task__card_check_icon" src="icons/checkbox.svg"></button>
-				<p> ${tasks[i].item}</p> 
+				<p>${tasks[i].item}</p> 
 			`
 	}
 	return newTaskList; 
@@ -102,14 +110,14 @@ function displayNewCard(todo) {
 				<ul class="task__card_task">${newTask(todo.tasks)}</ul>
 			</container>
 			<container class="task__card_footer_container">	
-				<button class="task__card_urgent" type="button">Urgent</button>
-				<button class="task__card_delete" type="button">Delete</button>
+				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg"><p class="urgent__text">Urgent</p></button>
+				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg"><p class="delete__text">Delete</p></button>
 			</container>	
 		</section>`)
 }
 
 function displayNewTask(task) {
-	console.log(taskArray)
+	if (navTaskItemInput.value !== '') {
 	navTaskList.insertAdjacentHTML('afterbegin', `
 		<section class="nav__temp_section" data-id=${task.id}>
 			<container class="nav__temp_container">
@@ -120,6 +128,8 @@ function displayNewTask(task) {
 			</container>
 		</section>
 		`)
+	}
+	navTaskItemInput.value = '';
 }
 
 function pressSaveBtn(event) {
@@ -128,6 +138,7 @@ function pressSaveBtn(event) {
 			makeNewCard();
 	}
 		cardPlaceholder();
+		navTaskTitleInput.value = '';
 }
 
 function findIndex(event) {
@@ -145,9 +156,29 @@ function findID(event) {
 
 function deleteCard(event) {
   var cardIndex = findIndex(event);
-  if (event.target.classList.contains('task__card_delete')) {
-    event.target.parentNode.parentNode.remove();
+  if (event.target.classList.contains('task__card_delete_icon')) {
+    event.target.parentNode.parentNode.parentNode.remove();
     globalArray[cardIndex].deleteFromStorage(cardIndex)
   }
   cardPlaceholder();
+};
+
+function findTaskID(event) {
+	return parseInt(event.target.closest('.nav__temp_section').dataset.id);
+};
+
+function findTaskIndex(event) {
+  var id = findTaskID(event);
+  for (var i = 0; i < globalArray.length; i++) {
+    if (id === taskArray[i].id) {
+      return parseInt(i);
+    }
+  }
+};
+
+function deleteTask(event) {
+  var cardTaskIndex = findTaskIndex(event);
+  if (event.target.classList.contains('nav__exit_icon')) {
+    event.target.parentNode.parentNode.remove();
+  }
 };
