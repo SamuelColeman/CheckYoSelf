@@ -13,5 +13,17 @@ class ToDo {
 	deleteFromStorage(cardIndex) {
     globalArray.splice(cardIndex, 1);
     this.setLocalStorage();
-  };
+  }
+};
+
+class Task {
+	constructor(obj) {
+		this.id = obj.id;
+		this.checkBtn = obj.checkBtn || false;
+		this.item = obj.item;
+	}
+
+	setLocalStorage() {
+		localStorage.setItem('cardArray', JSON.stringify(taskArray));
+	};
 }
