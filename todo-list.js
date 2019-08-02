@@ -4,7 +4,7 @@ class ToDo {
 		this.title = obj.title;
 		this.urgent = obj.urgent || false;
 		this.tasks = obj.tasks || [];
-	}
+	};
 
 	setLocalStorage() {
 		localStorage.setItem('cardArray', JSON.stringify(globalArray));
@@ -21,7 +21,7 @@ class Task {
 		this.id = obj.id;
 		this.checkBtn = obj.checkBtn || false;
 		this.item = obj.item;
-	}
+	};
 
 	setLocalStorage() {
 		localStorage.setItem('tempArray', JSON.stringify(taskArray));
