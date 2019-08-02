@@ -11,7 +11,7 @@ var inputs = document.querySelectorAll('.input');
 var navClearBtn = document.querySelector('.nav__clear_btn');
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
-
+navClearBtn.addEventListener('click', clearAll)
 taskCardDisplay.addEventListener('click', cardEventHandler);
 navTaskItemBtn.addEventListener('click', createTaskList);
 navTaskList.addEventListener('click', taskEventHandler);
@@ -62,8 +62,9 @@ function createTaskList() {
 		checkBtn: false,
 		item: navTaskItemInput.value
 	})
-	taskArray.push(task)
-	displayNewTask(task)
+	disableBtn();
+	taskArray.push(task);
+	displayNewTask(task);
 }
 
 function persistedCards(){
@@ -189,18 +190,27 @@ function deleteTask(event) {
 };
 
 function disableBtn() {
-  if (navTaskItemInput.value === '' &&
+  if (navTaskTitleInput.value === '' ||
     taskArray.length < 1) {
     navMakeTaskBtn.disabled = true;
+  	navClearBtn.disabled = true;
   } else {
     navMakeTaskBtn.disabled = false;
+    navClearBtn.disabled = false;
   }
 };
 
 function checkInputFields() {
-  for (i=0; i < inputs.length; i++) {
+  for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('keyup', function () {
       disableBtn();
     })
   }
 };
+
+function clearAll() {
+	navTaskTitleInput.value = '';
+	navTaskItemInput.value = '';
+	navTaskList.innerHTML = '';
+	tasksArray = [];
+}
