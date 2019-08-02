@@ -25,6 +25,11 @@ span {
 	margin: 0 5%;
 }
 
+ul {
+	display: block;
+	padding-inline-start: 0px;
+}
+
 h4 {
 	color: #FFFFFF;
 	font-size: 15px;
@@ -42,7 +47,7 @@ button {
 	width: 100%;
 	height: 50px;
 	margin: 5% 0;
-	border: 1px solid #1F1F3D;
+	border: 2px solid #1F1F3D;
 	border-radius: 5px;
 	background-color: #1F1F3D;
 	color: #FFFFFF;
@@ -62,8 +67,8 @@ h2 {
 }
 
 .task__card_display {
-	display: flex;
-	flex-wrap: wrap;
+	column-count: 2;
+	column-gap: -5%;
 	grid-area: card;
 	background-color: #F3F6F7;
 }
@@ -76,8 +81,10 @@ h2 {
 
 .header__search_input {
 	display: flex;
-	height: 55%;
-	margin-top: 5%;
+	height: 34%;
+	margin-top: 16px;
+	border-left: 0;
+	padding: 3%;
 }
 
 .header__search_icon {
@@ -103,40 +110,36 @@ h2 {
 }
 
 .task__card_id {
-	display: flex;
-	flex-direction: column;
-	border: 1px solid #FFC30C;
-	width: 30%;
-	height: 60%;
-	margin: 2%;
+	display: inline-block;
+	border: 2px solid #FFC30C;
+	padding: 5px;
+	width: 90%;
+	margin: 5% 0 0 5%;
 	background-color: #FFE89D;
+	box-sizing: border-box;
 }
 
 .task__card_check {
 	background-color: #FFE89D;
-	border-radius: 100%;
 	width: 20%;
 	height: 27px;
-	margin-right: 5%;
 	border: 0;
 }
 
 .task__card_footer_container {
 	display: flex;
 	flex-direction: row;
-	padding: 5%;
 	justify-content: space-around;
 	margin-top: auto;
-	border-top: 1px solid #FFC30C;
-	width: 85%;
-  margin-left: 2%;
+	border-top: 2px solid #FFC30C;
+	width: 100%;
 }
 
 .task__card_task_container {
 	display: flex;
 	flex-direction: row;
 	padding: 5%;
-	border-top: 1px solid #FFC30C;
+	border-top: 2px solid #FFC30C;
 }
 
 .nav__task_container {
@@ -148,6 +151,7 @@ h2 {
 	width: 15%;
 	height: 54px;
 	margin-top: 2%;
+	border-radius: 0 5px 5px 0;
 }
 
 .nav__task_item_icon {
@@ -181,7 +185,7 @@ h2 {
 }
 
 .nav__urgency_filter {
-	border-top: 1px solid white;
+	border-top: 2px solid white;
 	margin-top: 30px;
   padding-top: 10px;
 }
@@ -196,12 +200,8 @@ h2 {
 	align-items: center;
 }
 
-.task__card_task {
-	margin-left: -20%;
-}
-
 .task__card_check_icon {
-	width: 100%;
+	width: 60%;
 }
 
 .task__card_urgent,
@@ -211,9 +211,6 @@ h2 {
 	color: #1F1F3D;
 	background-color: #FFE89D;
 	width: 20%;
-	height: 20%;
-	padding: 10%;
-	margin: 5%;
 	border: 0;
 }
 
