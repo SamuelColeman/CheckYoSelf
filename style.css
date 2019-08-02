@@ -57,7 +57,7 @@ button {
 h2 {
 	color: #1F1F3D;
 	font-size: 25px;
-	padding: 5%
+	padding: 2%
 }
 
 .nav {
@@ -74,7 +74,7 @@ h2 {
 }
 
 .header__search_container {
-	display:flex;
+	display: flex;
 	flex-direction: row;
 	margin-left: 55%;
 }
@@ -111,19 +111,20 @@ h2 {
 
 .task__card_id {
 	display: inline-block;
-	border: 2px solid #FFC30C;
+	border: 2px solid #C7D3D8;
 	padding: 5px;
 	width: 90%;
 	margin: 5% 0 0 5%;
-	background-color: #FFE89D;
+	background-color: #FAFDFF;
 	box-sizing: border-box;
 }
 
 .task__card_check {
-	background-color: #FFE89D;
+	background-color: #FAFDFF;
 	width: 20%;
 	height: 27px;
 	border: 0;
+	padding: 0;
 }
 
 .task__card_footer_container {
@@ -131,7 +132,7 @@ h2 {
 	flex-direction: row;
 	justify-content: space-around;
 	margin-top: auto;
-	border-top: 2px solid #FFC30C;
+	border-top: 2px solid #C7D3D8;
 	width: 100%;
 }
 
@@ -139,7 +140,7 @@ h2 {
 	display: flex;
 	flex-direction: row;
 	padding: 5%;
-	border-top: 2px solid #FFC30C;
+	border-top: 2px solid #C7D3D8;
 }
 
 .nav__task_container {
@@ -209,9 +210,11 @@ h2 {
 	display: flex;
 	flex-direction: column;
 	color: #1F1F3D;
-	background-color: #FFE89D;
+	background-color: #FAFDFF;
 	width: 20%;
 	border: 0;
+	padding: 0;
+	margin-bottom: 0;
 }
 
 .task__card_delete_icon,
@@ -220,18 +223,15 @@ h2 {
 	height: 25px;
 }
 
-.urgent__text {
+.urgent__text,
+.delete__text {
 	padding: 2%;
   font-size: 12px;
-  margin-left: -25%;
-}
-
-.delete__text {
-	padding: 10%;
-  font-size: 12px;
-  margin-left: -25%;
+  margin-left: -15%;
+  color: #3C6567;
 }
 
 .task__list_item {
 	width: 100%;
+	color: #1F1F3D;
 }
