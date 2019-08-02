@@ -1,5 +1,5 @@
 var globalArray = JSON.parse(localStorage.getItem('cardArray')) || [];
-var taskArray = JSON.parse(localStorage.getItem('cardArray')) || [];
+var taskArray = JSON.parse(localStorage.getItem('tempArray')) || [];
 var taskCardDisplay = document.querySelector('.task__card_display');
 var navTaskTitleInput = document.querySelector('.nav__task_title_input')
 var navTaskItemInput = document.querySelector('.nav__task_item_input');
@@ -7,17 +7,22 @@ var navMakeTaskBtn = document.querySelector('.nav__make_task_btn');
 var navTaskList = document.querySelector('.nav__task_list');
 var navTaskItemBtn = document.querySelector('.nav__task_item_btn');
 var navExitBtn = document.querySelector('.nav__exit_btn');
+var inputs = document.querySelectorAll('.input');
+var navClearBtn = document.querySelector('.nav__clear_btn');
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
+
 taskCardDisplay.addEventListener('click', cardEventHandler);
 navTaskItemBtn.addEventListener('click', createTaskList);
 navTaskList.addEventListener('click', taskEventHandler);
 window.addEventListener('load', pageLoad);
+checkInputFields();
 
 function pageLoad(){
 	persistedCards();
 	reinstantiateCard();
 	cardPlaceholder();
+	disableBtn();
 };
 
 function cardEventHandler(event) {
@@ -59,7 +64,6 @@ function createTaskList() {
 	})
 	taskArray.push(task)
 	displayNewTask(task)
-	task.setLocalStorage(taskArray)
 }
 
 function persistedCards(){
@@ -138,6 +142,7 @@ function pressSaveBtn(event) {
 			makeNewCard();
 	}
 		cardPlaceholder();
+		disableBtn();
 		navTaskTitleInput.value = '';
 }
 
@@ -180,5 +185,22 @@ function deleteTask(event) {
   var cardTaskIndex = findTaskIndex(event);
   if (event.target.classList.contains('nav__exit_icon')) {
     event.target.parentNode.parentNode.remove();
+  }
+};
+
+function disableBtn() {
+  if (navTaskItemInput.value === '' &&
+    taskArray.length < 1) {
+    navMakeTaskBtn.disabled = true;
+  } else {
+    navMakeTaskBtn.disabled = false;
+  }
+};
+
+function checkInputFields() {
+  for (i=0; i < inputs.length; i++) {
+    inputs[i].addEventListener('keyup', function () {
+      disableBtn();
+    })
   }
 };
