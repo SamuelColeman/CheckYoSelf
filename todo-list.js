@@ -14,6 +14,14 @@ class ToDo {
     globalArray.splice(cardIndex, 1);
     this.setLocalStorage();
   }
+  
+  updateToDo() {
+
+  }
+
+  updateTask() {
+
+  }
 };
 
 class Task {
