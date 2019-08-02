@@ -176,7 +176,7 @@ function findTaskID(event) {
 
 function findTaskIndex(event) {
   var id = findTaskID(event);
-  for (var i = 0; i < globalArray.length; i++) {
+  for (var i = 0; i < taskArray.length; i++) {
     if (id === taskArray[i].id) {
       return parseInt(i);
     }
@@ -184,7 +184,9 @@ function findTaskIndex(event) {
 };
 
 function deleteTask(event) {
-    event.target.parentNode.parentNode.remove();
+	var id = findTaskIndex(event);
+  event.target.parentNode.parentNode.remove();
+  taskArray.splice(id, 1);
 };
 
 function disableBtn() {
