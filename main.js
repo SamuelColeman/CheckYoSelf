@@ -99,8 +99,8 @@ function newTask(tasks) {
 	var newTaskList = '';
 	for (var i = 0; i < tasks.length; i++) {
 			newTaskList += `<li class="card__task" data-id=${tasks[i].id}>
-				<button class="task__card_check" type="button"><img class="task__card_check_icon" src="icons/checkbox.svg"></button>
-				<p>${tasks[i].item}</p>`
+				<button class="task__card_check" type="button"><img class="task__card_check_icon" src="icons/checkbox.svg" alt="Unchecked circle icon"></button>
+				<p class="task__list_item">${tasks[i].item}</p>`
 	}
 	return newTaskList; 
 };
@@ -115,8 +115,8 @@ function displayNewCard(todo) {
 				<ul class="task__card_task">${newTask(todo.tasks)}</ul>
 			</container>
 			<container class="task__card_footer_container">	
-				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg"><p class="urgent__text">URGENT</p></button>
-				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg"><p class="delete__text">DELETE</p></button>
+				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg" alt="Lighting bolt urgent icon"><p class="urgent__text">URGENT</p></button>
+				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg" alt="X mark delete icon"><p class="delete__text">DELETE</p></button>
 			</container>	
 		</section>`)
 	clearAll();
@@ -128,7 +128,7 @@ function displayNewTask(task) {
 		<section class="nav__temp_section" data-id=${task.id}>
 			<container class="nav__temp_container">
 				<button class="nav__exit_btn" type="button">
-					<img class="nav__exit_icon" src="icons/delete.svg">
+					<img class="nav__exit_icon" src="icons/delete.svg" alt="X mark delete icon">
 				</button>
 				<p class="nav__temp_task type="text">${task.item}</p>
 			</container>
