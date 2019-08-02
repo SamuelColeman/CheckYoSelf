@@ -25,5 +25,5 @@ class Task {
 
 	setLocalStorage() {
 		localStorage.setItem('tempArray', JSON.stringify(taskArray));
-	};
-}
+	}
+};
