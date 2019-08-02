@@ -74,7 +74,6 @@ function persistedCards(){
     var title = globalArray[i].title;
     var urgent = globalArray[i].urgent;
     var tasks = globalArray[i].tasks;
-    console.log(globalArray[i].tasks)
     var index = i;
     reassignClass(id,title,urgent,tasks,i);
   }
@@ -120,12 +119,12 @@ function displayNewCard(todo) {
 				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg"><p class="delete__text">DELETE</p></button>
 			</container>	
 		</section>`)
-	disableBtn();
+	clearAll();
 };
 
 function displayNewTask(task) {
 	if (navTaskItemInput.value !== '') {
-	navTaskList.insertAdjacentHTML('afterbegin', `
+	navTaskList.insertAdjacentHTML('beforeend', `
 		<section class="nav__temp_section" data-id=${task.id}>
 			<container class="nav__temp_container">
 				<button class="nav__exit_btn" type="button">
@@ -212,6 +211,6 @@ function clearAll() {
 	navTaskTitleInput.value = '';
 	navTaskItemInput.value = '';
 	navTaskList.innerHTML = '';
-	tasksArray = [];
+	taskArray = [];
 	disableBtn();
 };
