@@ -65,7 +65,7 @@ function createTaskList() {
 	disableBtn();
 	taskArray.push(task);
 	displayNewTask(task);
-}
+};
 
 function persistedCards(){
   for (var i = 0; i < globalArray.length; i++){
@@ -73,9 +73,10 @@ function persistedCards(){
     var title = globalArray[i].title;
     var urgent = globalArray[i].urgent;
     var tasks = globalArray[i].tasks;
+    console.log(globalArray[i].tasks)
     var index = i;
     reassignClass(id,title,urgent,tasks,i);
-  };
+  }
 };
 
 function reassignClass(id,title,urgent,tasks,i){
@@ -84,14 +85,14 @@ function reassignClass(id,title,urgent,tasks,i){
     title: title,
 		urgent: urgent,
 		tasks: tasks  
-  });
+  })
   globalArray.splice(i, 1, todo);
 };
 
 function reinstantiateCard(){
   globalArray.forEach(function(todo){
     displayNewCard(todo);
-  }); 
+  }) 
 };
 
 function newTask(tasks) {
@@ -103,7 +104,7 @@ function newTask(tasks) {
 			`
 	}
 	return newTaskList; 
-}
+};
 
 function displayNewCard(todo) {
 	taskCardDisplay.insertAdjacentHTML('afterbegin', `
@@ -115,11 +116,11 @@ function displayNewCard(todo) {
 				<ul class="task__card_task">${newTask(todo.tasks)}</ul>
 			</container>
 			<container class="task__card_footer_container">	
-				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg"><p class="urgent__text">Urgent</p></button>
-				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg"><p class="delete__text">Delete</p></button>
+				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg"><p class="urgent__text">URGENT</p></button>
+				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg"><p class="delete__text">DELETE</p></button>
 			</container>	
 		</section>`)
-}
+};
 
 function displayNewTask(task) {
 	if (navTaskItemInput.value !== '') {
@@ -135,7 +136,7 @@ function displayNewTask(task) {
 		`)
 	}
 	navTaskItemInput.value = '';
-}
+};
 
 function pressSaveBtn(event) {
 		event.preventDefault();
@@ -145,7 +146,7 @@ function pressSaveBtn(event) {
 		cardPlaceholder();
 		disableBtn();
 		navTaskTitleInput.value = '';
-}
+};
 
 function findIndex(event) {
   var id = findID(event);
@@ -213,4 +214,4 @@ function clearAll() {
 	navTaskItemInput.value = '';
 	navTaskList.innerHTML = '';
 	tasksArray = [];
-}
+};
