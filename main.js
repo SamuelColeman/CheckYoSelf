@@ -106,7 +106,7 @@ function newTask(tasks) {
 };
 
 function displayNewCard(todo) {
-	taskCardDisplay.insertAdjacentHTML('afterbegin', `
+	taskCardDisplay.insertAdjacentHTML('beforeend', `
 		<section class="task__card_id" data-id=${todo.id}>
 			<container class="task__card_title_container">
 				<h2 class="task__card_title">${todo.title}</h2>
