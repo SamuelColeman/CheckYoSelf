@@ -28,14 +28,14 @@ function pageLoad(){
 function cardEventHandler(event) {
 	if (event.target.classList.contains('task__card_delete_icon')) {
     deleteCard(event);
-  };
-}
+  }
+};
 
 function taskEventHandler(event) {
 	if (event.target.classList.contains('nav__exit_icon')) {
     deleteTask(event);
-  };
-}
+  }
+};
 
 function cardPlaceholder() {
   if (globalArray.length < 1) {
@@ -57,14 +57,15 @@ function makeNewCard() {
 };
 
 function createTaskList() {
+	if (navTaskItemInput.value !== '') {
 	var task = new Task ({
 		id: Date.now(),
 		checkBtn: false,
 		item: navTaskItemInput.value
 	})
-	disableBtn();
 	taskArray.push(task);
 	displayNewTask(task);
+	}
 };
 
 function persistedCards(){
@@ -98,10 +99,9 @@ function reinstantiateCard(){
 function newTask(tasks) {
 	var newTaskList = '';
 	for (var i = 0; i < tasks.length; i++) {
-			newTaskList += `<li class="card__task" data-id=${tasks.id}>
+			newTaskList += `<li class="card__task" data-id=${tasks[i].id}>
 				<button class="task__card_check" type="button"><img class="task__card_check_icon" src="icons/checkbox.svg"></button>
-				<p>${tasks[i].item}</p> 
-			`
+				<p>${tasks[i].item}</p>`
 	}
 	return newTaskList; 
 };
@@ -120,6 +120,7 @@ function displayNewCard(todo) {
 				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg"><p class="delete__text">DELETE</p></button>
 			</container>	
 		</section>`)
+	disableBtn();
 };
 
 function displayNewTask(task) {
@@ -135,6 +136,7 @@ function displayNewTask(task) {
 		</section>
 		`)
 	}
+	disableBtn();
 	navTaskItemInput.value = '';
 };
 
@@ -144,8 +146,8 @@ function pressSaveBtn(event) {
 			makeNewCard();
 	}
 		cardPlaceholder();
-		disableBtn();
 		navTaskTitleInput.value = '';
+		disableBtn();
 };
 
 function findIndex(event) {
@@ -163,10 +165,8 @@ function findID(event) {
 
 function deleteCard(event) {
   var cardIndex = findIndex(event);
-  if (event.target.classList.contains('task__card_delete_icon')) {
     event.target.parentNode.parentNode.parentNode.remove();
     globalArray[cardIndex].deleteFromStorage(cardIndex)
-  }
   cardPlaceholder();
 };
 
@@ -184,10 +184,7 @@ function findTaskIndex(event) {
 };
 
 function deleteTask(event) {
-  var cardTaskIndex = findTaskIndex(event);
-  if (event.target.classList.contains('nav__exit_icon')) {
     event.target.parentNode.parentNode.remove();
-  }
 };
 
 function disableBtn() {
@@ -214,4 +211,5 @@ function clearAll() {
 	navTaskItemInput.value = '';
 	navTaskList.innerHTML = '';
 	tasksArray = [];
+	disableBtn();
 };
