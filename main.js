@@ -15,6 +15,7 @@ navClearBtn.addEventListener('click', clearAll)
 taskCardDisplay.addEventListener('click', cardEventHandler);
 navTaskItemBtn.addEventListener('click', createTaskList);
 navTaskList.addEventListener('click', taskEventHandler);
+headerSearchInput.addEventListener('keyup', filterSearch);
 window.addEventListener('load', pageLoad);
 checkInputFields();
 
@@ -294,4 +295,15 @@ function toggleUrgentStyle(event) {
 	var urgentArray = ['task__urgent', 'task__urgent_body', 'task__urgent_text', 'task__urgent_delete']
 	for (var i = 0; i < urgentArray.length; i++)
 		event.target.closest('.task__card_id').classList.toggle(urgentArray[i]);
+};
+
+function filterSearch() {
+	var searchStr = headerSearchInput.value.toUpperCase();
+	var newArr = globalArray.filter(function(search){
+	return (search.title.toUpperCase().includes(searchStr));
+	})
+		taskCardDisplay.innerHTML = '';
+		newArr.map(function(search) {
+			displayNewCard(search);
+	})
 };
