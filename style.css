@@ -235,3 +235,7 @@ h2 {
 	width: 100%;
 	color: #1F1F3D;
 }
+
+.card__task_italic {
+	font-style: italic;
+}

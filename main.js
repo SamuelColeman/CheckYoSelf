@@ -1,5 +1,5 @@
 var globalArray = JSON.parse(localStorage.getItem('cardArray')) || [];
-var taskArray = JSON.parse(localStorage.getItem('tempArray')) || [];
+var taskArray = [];
 var taskCardDisplay = document.querySelector('.task__card_display');
 var navTaskTitleInput = document.querySelector('.nav__task_title_input')
 var navTaskItemInput = document.querySelector('.nav__task_item_input');
@@ -7,8 +7,7 @@ var navMakeTaskBtn = document.querySelector('.nav__make_task_btn');
 var navTaskList = document.querySelector('.nav__task_list');
 var navTaskItemBtn = document.querySelector('.nav__task_item_btn');
 var navExitBtn = document.querySelector('.nav__exit_btn');
-var inputs = document.querySelectorAll('.input');
-var navClearBtn = document.querySelector('.nav__clear_btn');
+var navClearBtn = document.querySelector('.nav__clear_btn'); 
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
 navClearBtn.addEventListener('click', clearAll)
@@ -28,6 +27,9 @@ function pageLoad(){
 function cardEventHandler(event) {
 	if (event.target.classList.contains('task__card_delete_icon')) {
     deleteCard(event);
+  }
+  if (event.target.classList.contains('task__card_check_icon')) {
+  	checkOffTask(event);
   }
 };
 
@@ -97,15 +99,32 @@ function reinstantiateCard(){
 
 function newTask(tasks) {
 	var newTaskList = '';
+	var btnStatus = '';
+	var italic = '';
 	for (var i = 0; i < tasks.length; i++) {
-			newTaskList += `<li class="card__task" data-id=${tasks[i].id}>
-				<button class="task__card_check" type="button"><img class="task__card_check_icon" src="icons/checkbox.svg" alt="Unchecked circle icon"></button>
+		if (tasks[i].checkBtn === true) {
+			btnStatus = 'icons/checkbox-active.svg';
+			italic = 'card__task_italic';
+		} else {
+			btnStatus = 'icons/checkbox.svg';
+			italic = '';
+		}
+			newTaskList += `<li class="card__task ${italic}" data-id=${tasks[i].id}>
+				<button class="task__card_check" type="button"><img class="task__card_check_icon" src=${btnStatus} alt="Checked or unchecked circle icon"></button>
 				<p class="task__list_item">${tasks[i].item}</p>`
 	}
 	return newTaskList; 
 };
 
 function displayNewCard(todo) {
+	var deleteBtn = '';
+	for (var i = 0; i < todo.length; i++) {
+		if (todo[i].checked === true) {
+			deleteBtn = 'icons/delete.svg';
+		} else {
+			deleteBtn = 'icons/delete-active.svg';
+		}
+	}
 	taskCardDisplay.insertAdjacentHTML('beforeend', `
 		<section class="task__card_id" data-id=${todo.id}>
 			<container class="task__card_title_container">
@@ -116,7 +135,7 @@ function displayNewCard(todo) {
 			</container>
 			<container class="task__card_footer_container">	
 				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg" alt="Lighting bolt urgent icon"><p class="urgent__text">URGENT</p></button>
-				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src="icons/delete.svg" alt="X mark delete icon"><p class="delete__text">DELETE</p></button>
+				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src=${deleteBtn} alt="Cross mark delete icon"><p class="delete__text">DELETE</p></button>
 			</container>	
 		</section>`)
 	clearAll();
@@ -149,8 +168,8 @@ function pressSaveBtn(event) {
 		disableBtn();
 };
 
-function findIndex(event) {
-  var id = findID(event);
+function findIndex(event, globalArray, className) {
+  var id = parseInt(event.target.closest('.' + className).dataset.id);
   for (var i = 0; i < globalArray.length; i++) {
     if (id === globalArray[i].id) {
       return parseInt(i);
@@ -158,32 +177,15 @@ function findIndex(event) {
   }
 };
 
-function findID(event) {
-  return parseInt(event.target.closest('.task__card_id').dataset.id);
-};
-
 function deleteCard(event) {
-  var cardIndex = findIndex(event);
+  var cardIndex = findIndex(event, globalArray, 'task__card_id');
     event.target.parentNode.parentNode.parentNode.remove();
     globalArray[cardIndex].deleteFromStorage(cardIndex)
   cardPlaceholder();
 };
 
-function findTaskID(event) {
-	return parseInt(event.target.closest('.nav__temp_section').dataset.id);
-};
-
-function findTaskIndex(event) {
-  var id = findTaskID(event);
-  for (var i = 0; i < taskArray.length; i++) {
-    if (id === taskArray[i].id) {
-      return parseInt(i);
-    }
-  }
-};
-
 function deleteTask(event) {
-	var id = findTaskIndex(event);
+	var id = findIndex(event, taskArray, 'nav__temp_section');
   event.target.parentNode.parentNode.remove();
   taskArray.splice(id, 1);
 };
@@ -200,6 +202,7 @@ function disableBtn() {
 };
 
 function checkInputFields() {
+	var inputs = document.querySelectorAll('.input');
   for (var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('keyup', function () {
       disableBtn();
@@ -214,3 +217,42 @@ function clearAll() {
 	taskArray = [];
 	disableBtn();
 };
+
+function checkOffTask(event) {
+	var globalID = findIndex(event, globalArray, 'task__card_id');
+	var ID = findIndex(event, globalArray[globalID].tasks, 'card__task')
+	var selectedTask = globalArray[globalID].tasks[ID];
+	selectedTask.checkBtn = ! selectedTask.checkBtn
+	updateTask(event, selectedTask, ID);
+	globalArray[globalID].setLocalStorage(globalArray);
+	toggleItalic(event);
+	checkTaskCompletion(event, globalArray, globalArray[globalID]);
+};
+
+function updateTask(event, task, ID) {
+	var checkBtnArray = event.target.closest('.task__card_id').querySelectorAll('.task__card_check_icon')
+	if (task.checkBtn === true) {
+		checkBtnArray[ID].setAttribute('src', 'icons/checkbox-active.svg')
+	} else {
+		checkBtnArray[ID].setAttribute('src', 'icons/checkbox.svg')
+	}
+};
+
+function toggleItalic(event) {
+	event.target.closest('.card__task').classList.toggle('card__task_italic');
+};
+
+function checkTaskCompletion(event, array, obj) {
+	var checkDelete = event.target.closest('.task__card_id').querySelector('.task__card_delete_icon');
+	if (obj.tasks.every(function(item) {
+		return item.checkBtn === true;
+	})) {
+		checkDelete.disabled = false;
+		obj.checked = true;
+		checkDelete.setAttribute('src', 'icons/delete.svg')
+	} else {
+		checkDelete.disabled = true;
+		obj.checked = false;
+		checkDelete.setAttribute('src', 'icons/delete-active.svg')
+	}
+}
