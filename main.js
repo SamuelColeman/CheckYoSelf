@@ -6,9 +6,9 @@ var navTaskItemInput = document.querySelector('.nav__task_item_input');
 var navMakeTaskBtn = document.querySelector('.nav__make_task_btn');
 var navTaskList = document.querySelector('.nav__task_list');
 var navTaskItemBtn = document.querySelector('.nav__task_item_btn');
-var navExitBtn = document.querySelector('.nav__exit_btn');
 var navClearBtn = document.querySelector('.nav__clear_btn');
 var taskCardDeleteIcon = document.querySelector('.task__card_delete_icon');
+var headerSearchInput = document.querySelector('.header__search_input');
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
 navClearBtn.addEventListener('click', clearAll)
@@ -32,6 +32,9 @@ function cardEventHandler(event) {
   if (event.target.classList.contains('task__card_check_icon')) {
   	checkOffTask(event);
   }
+  if (event.target.classList.contains('task__card_urgent_icon')) {
+  	updateUrgent(event);
+  }
 };
 
 function taskEventHandler(event) {
@@ -52,7 +55,9 @@ function makeNewCard() {
 	var todo = new ToDo ({
 		id: Date.now(),
 		title: navTaskTitleInput.value,
-		tasks: taskArray
+		urgent: false,
+		tasks: taskArray,
+		checked: false
 	})
 	globalArray.push(todo);
 	displayNewCard(todo);
@@ -77,17 +82,19 @@ function persistedCards(){
     var title = globalArray[i].title;
     var urgent = globalArray[i].urgent;
     var tasks = globalArray[i].tasks;
+    var checked = globalArray[i].checked
     var index = i;
-    reassignClass(id,title,urgent,tasks,i);
+    reassignClass(id,title,urgent,tasks,checked,i);
   }
 };
 
-function reassignClass(id,title,urgent,tasks,i){
+function reassignClass(id,title,urgent,tasks,checked,i){
   var todo = new ToDo({
     id: id,
     title: title,
 		urgent: urgent,
-		tasks: tasks  
+		tasks: tasks,
+		checked: checked  
   })
   globalArray.splice(i, 1, todo);
 };
@@ -111,7 +118,7 @@ function newTask(tasks) {
 			italic = '';
 		}
 			newTaskList += `<li class="card__task ${italic}" data-id=${tasks[i].id}>
-				<button class="task__card_check" type="button"><img class="task__card_check_icon" src=${btnStatus} alt="Checked or unchecked circle icon"></button>
+				<img class="task__card_check_icon" type="button" src=${btnStatus} alt="Checked or unchecked circle icon">
 				<p class="task__list_item">${tasks[i].item}</p>`
 	}
 	return newTaskList; 
@@ -119,24 +126,34 @@ function newTask(tasks) {
 
 function displayNewCard(todo) {
 	var deleteBtn = 'icons/delete.svg';
-	for (var i = 0; i < todo.length; i++) {
-		if (todo[i].checked === true) {
-			deleteBtn = 'icons/delete.svg';
-		} else {
+	var urgentBtn = 'icons/urgent.svg';
+	var urgentStyle = [];
+	console.log(todo)
+		if (todo.checked === true) {
 			deleteBtn = 'icons/delete-active.svg';
+		} else {
+			deleteBtn = 'icons/delete.svg';
 		}
-	}
+		if (todo.urgent === true) {
+			urgentStyle = ['task__urgent', 'task__urgent_body', 'task__urgent_text', 'task__urgent_delete'];
+			urgentBtn = 'icons/urgent-active.svg';
+		} else {
+			urgentStyle = ['', '', '', ''];
+			urgentBtn = 'icons/urgent.svg';
+		}
 	taskCardDisplay.insertAdjacentHTML('beforeend', `
-		<section class="task__card_id" data-id=${todo.id}>
+		<section class="task__card_id ${urgentStyle[0]}" data-id=${todo.id}>
 			<container class="task__card_title_container">
 				<h2 class="task__card_title">${todo.title}</h2>
 			</container>	
-			<container class="task__card_task_container">
+			<container class="task__card_body_container ${urgentStyle[1]}">
 				<ul class="task__card_task">${newTask(todo.tasks)}</ul>
 			</container>
 			<container class="task__card_footer_container">	
-				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg" alt="Lighting bolt urgent icon"><p class="urgent__text">URGENT</p></button>
-				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src=${deleteBtn}><p class="delete__text">DELETE</p></button>
+				<form class="task__card_urgent_"><img class="task__card_urgent_icon" type="button" src=${urgentBtn} alt="Lighting bolt urgent icon"><p class="urgent__text ${urgentStyle[2]}">URGENT</p>
+				</form>
+				<form class="task__card_delete"><img class="task__card_delete_icon" type="button" src=${deleteBtn}><p class="delete__text ${urgentStyle[3]}">DELETE</p>
+				</form>
 			</container>	
 		</section>`)
 	clearAll();
@@ -147,9 +164,7 @@ function displayNewTask(task) {
 	navTaskList.insertAdjacentHTML('beforeend', `
 		<section class="nav__temp_section" data-id=${task.id}>
 			<container class="nav__temp_container">
-				<button class="nav__exit_btn" type="button">
-					<img class="nav__exit_icon" src="icons/delete.svg" alt="X mark delete icon">
-				</button>
+					<img class="nav__exit_icon" type="button" src="icons/delete.svg" alt="X mark delete icon">
 				<p class="nav__temp_task type="text">${task.item}</p>
 			</container>
 		</section>
@@ -225,13 +240,13 @@ function checkOffTask(event) {
 	var selectedTask = globalArray[globalID].tasks[ID];
 	selectedTask.checkBtn = ! selectedTask.checkBtn
 	updateTask(event, selectedTask, ID);
-	globalArray[globalID].setLocalStorage(globalArray);
 	toggleItalic(event);
 	checkTaskCompletion(event, globalArray, globalArray[globalID]);
+	globalArray[globalID].setLocalStorage(globalArray);
 };
 
 function updateTask(event, task, ID) {
-	var checkBtnArray = event.target.closest('.task__card_id').querySelectorAll('.task__card_check_icon')
+	var checkBtnArray = event.target.closest('.task__card_id').querySelectorAll('.task__card_check_icon');
 	if (task.checkBtn === true) {
 		checkBtnArray[ID].setAttribute('src', 'icons/checkbox-active.svg')
 	} else {
@@ -246,7 +261,7 @@ function toggleItalic(event) {
 function checkTaskCompletion(event, array, obj) {
 	var checkDelete = event.target.closest('.task__card_id').querySelector('.task__card_delete_icon');
 	if (obj.tasks.every(function(item) {
-		return item.checkBtn === true;
+		  return item.checkBtn === true;
 	})) {
 		obj.checked = true;
 		checkDelete.disabled = false;
@@ -256,4 +271,27 @@ function checkTaskCompletion(event, array, obj) {
 		checkDelete.disabled = true;
 		checkDelete.setAttribute('src', 'icons/delete.svg')
 	}
-}
+};
+
+function updateUrgent(event) {
+	var globalID = findIndex(event, globalArray, 'task__card_id');
+	globalArray[globalID].urgent = ! globalArray[globalID].urgent;
+	updateToDo(event, globalArray[globalID].urgent);
+	toggleUrgentStyle(event);
+	globalArray[globalID].setLocalStorage(globalArray);
+};
+
+function updateToDo(event, urgency) {
+	var urgentBtn = event.target.closest('.task__card_id').querySelector('.task__card_urgent_icon');
+	if (urgency === true) {
+		urgentBtn.setAttribute('src', 'icons/urgent-active.svg')
+	} else {
+		urgentBtn.setAttribute('src', 'icons/urgent.svg')
+	}
+};
+
+function toggleUrgentStyle(event) {
+	var urgentArray = ['task__urgent', 'task__urgent_body', 'task__urgent_text', 'task__urgent_delete']
+	for (var i = 0; i < urgentArray.length; i++)
+		event.target.closest('.task__card_id').classList.toggle(urgentArray[i]);
+};
