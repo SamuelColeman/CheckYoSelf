@@ -17,11 +17,7 @@ class ToDo {
   }
 
   updateToDo() {
-
-  }
-
-  updateTask() {
-
+  	this.urgent = ! this.urgent;
   }
 };
 
