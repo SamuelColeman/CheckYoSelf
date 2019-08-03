@@ -1,20 +1,19 @@
 var globalArray = JSON.parse(localStorage.getItem('cardArray')) || [];
 var taskArray = [];
 var taskCardDisplay = document.querySelector('.task__card_display');
-var navTaskTitleInput = document.querySelector('.nav__task_title_input')
+var navTaskTitleInput = document.querySelector('.nav__task_title_input');
 var navTaskItemInput = document.querySelector('.nav__task_item_input');
 var navMakeTaskBtn = document.querySelector('.nav__make_task_btn');
 var navTaskList = document.querySelector('.nav__task_list');
 var navTaskItemBtn = document.querySelector('.nav__task_item_btn');
 var navClearBtn = document.querySelector('.nav__clear_btn');
-var taskCardDeleteIcon = document.querySelector('.task__card_delete_icon');
 var headerSearchInput = document.querySelector('.header__search_input');
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
 navClearBtn.addEventListener('click', clearAll)
 taskCardDisplay.addEventListener('click', cardEventHandler);
 navTaskItemBtn.addEventListener('click', createTaskList);
-navTaskList.addEventListener('click', taskEventHandler);
+navTaskList.addEventListener('click', navEventHandler);
 headerSearchInput.addEventListener('keyup', filterSearch);
 window.addEventListener('load', pageLoad);
 checkInputFields();
@@ -38,7 +37,7 @@ function cardEventHandler(event) {
   }
 };
 
-function taskEventHandler(event) {
+function navEventHandler(event) {
 	if (event.target.classList.contains('nav__exit_icon')) {
     deleteTask(event);
   }
@@ -129,7 +128,6 @@ function displayNewCard(todo) {
 	var deleteBtn = 'icons/delete.svg';
 	var urgentBtn = 'icons/urgent.svg';
 	var urgentStyle = [];
-	console.log(todo)
 		if (todo.checked === true) {
 			deleteBtn = 'icons/delete-active.svg';
 		} else {
@@ -151,9 +149,9 @@ function displayNewCard(todo) {
 				<ul class="task__card_task">${newTask(todo.tasks)}</ul>
 			</container>
 			<container class="task__card_footer_container">	
-				<form class="task__card_urgent_"><img class="task__card_urgent_icon" type="button" src=${urgentBtn} alt="Lighting bolt urgent icon"><p class="urgent__text ${urgentStyle[2]}">URGENT</p>
+				<form class="task__card_urgent"><img class="task__card_urgent_icon" type="button" src=${urgentBtn} alt="Lighting bolt urgent icon"><p class="urgent__text ${urgentStyle[2]}">URGENT</p>
 				</form>
-				<form class="task__card_delete"><img class="task__card_delete_icon" type="button" src=${deleteBtn}><p class="delete__text ${urgentStyle[3]}">DELETE</p>
+				<form class="task__card_delete"><img class="task__card_delete_icon" type="button" alt="Delete icon" src=${deleteBtn}><p class="delete__text ${urgentStyle[3]}">DELETE</p>
 				</form>
 			</container>	
 		</section>`)
@@ -197,8 +195,8 @@ function findIndex(event, globalArray, className) {
 function deleteCard(event) {
   var cardIndex = findIndex(event, globalArray, 'task__card_id');
     event.target.parentNode.parentNode.parentNode.remove();
-    globalArray[cardIndex].deleteFromStorage(cardIndex)
-  cardPlaceholder();
+    globalArray[cardIndex].deleteFromStorage(cardIndex);
+  	cardPlaceholder();
 };
 
 function deleteTask(event) {
@@ -239,14 +237,14 @@ function checkOffTask(event) {
 	var globalID = findIndex(event, globalArray, 'task__card_id');
 	var ID = findIndex(event, globalArray[globalID].tasks, 'card__task')
 	var selectedTask = globalArray[globalID].tasks[ID];
-	selectedTask.checkBtn = ! selectedTask.checkBtn
-	updateTask(event, selectedTask, ID);
+	selectedTask.checkBtn = ! selectedTask.checkBtn;
+	updateTaskCheck(event, selectedTask, ID);
 	toggleItalic(event);
 	checkTaskCompletion(event, globalArray, globalArray[globalID]);
 	globalArray[globalID].setLocalStorage(globalArray);
 };
 
-function updateTask(event, task, ID) {
+function updateTaskCheck(event, task, ID) {
 	var checkBtnArray = event.target.closest('.task__card_id').querySelectorAll('.task__card_check_icon');
 	if (task.checkBtn === true) {
 		checkBtnArray[ID].setAttribute('src', 'icons/checkbox-active.svg')
@@ -264,37 +262,43 @@ function checkTaskCompletion(event, array, obj) {
 	if (obj.tasks.every(function(item) {
 		  return item.checkBtn === true;
 	})) {
+		console.log(checkDelete)
 		obj.checked = true;
-		checkDelete.disabled = false;
+		// checkDelete.disabled = false;
+		checkDelete.classList.remove('disabled')
 		checkDelete.setAttribute('src', 'icons/delete-active.svg')
 	} else {
+		console.log(checkDelete)
 		obj.checked = false;
-		checkDelete.disabled = true;
+		// checkDelete.disabled = true;
+		checkDelete.classList.add('disabled')
 		checkDelete.setAttribute('src', 'icons/delete.svg')
 	}
 };
 
 function updateUrgent(event) {
 	var globalID = findIndex(event, globalArray, 'task__card_id');
-	globalArray[globalID].urgent = ! globalArray[globalID].urgent;
-	updateToDo(event, globalArray[globalID].urgent);
+	globalArray[globalID].updateToDo();
+	updateUrgency(event, globalArray[globalID].urgent);
 	toggleUrgentStyle(event);
 	globalArray[globalID].setLocalStorage(globalArray);
 };
 
-function updateToDo(event, urgency) {
+function updateUrgency(event, urgency) {
 	var urgentBtn = event.target.closest('.task__card_id').querySelector('.task__card_urgent_icon');
 	if (urgency === true) {
 		urgentBtn.setAttribute('src', 'icons/urgent-active.svg')
 	} else {
 		urgentBtn.setAttribute('src', 'icons/urgent.svg')
 	}
+	location.reload();
 };
 
 function toggleUrgentStyle(event) {
 	var urgentArray = ['task__urgent', 'task__urgent_body', 'task__urgent_text', 'task__urgent_delete']
-	for (var i = 0; i < urgentArray.length; i++)
+	for (var i = 0; i < urgentArray.length; i++) {
 		event.target.closest('.task__card_id').classList.toggle(urgentArray[i]);
+	}
 };
 
 function filterSearch() {
@@ -304,6 +308,6 @@ function filterSearch() {
 	})
 		taskCardDisplay.innerHTML = '';
 		newArr.map(function(search) {
-			displayNewCard(search);
+		displayNewCard(search);
 	})
 };
