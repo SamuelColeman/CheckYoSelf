@@ -7,7 +7,8 @@ var navMakeTaskBtn = document.querySelector('.nav__make_task_btn');
 var navTaskList = document.querySelector('.nav__task_list');
 var navTaskItemBtn = document.querySelector('.nav__task_item_btn');
 var navExitBtn = document.querySelector('.nav__exit_btn');
-var navClearBtn = document.querySelector('.nav__clear_btn'); 
+var navClearBtn = document.querySelector('.nav__clear_btn');
+var taskCardDeleteIcon = document.querySelector('.task__card_delete_icon');
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
 navClearBtn.addEventListener('click', clearAll)
@@ -22,7 +23,7 @@ function pageLoad(){
 	reinstantiateCard();
 	cardPlaceholder();
 	disableBtn();
-};
+	};
 
 function cardEventHandler(event) {
 	if (event.target.classList.contains('task__card_delete_icon')) {
@@ -117,7 +118,7 @@ function newTask(tasks) {
 };
 
 function displayNewCard(todo) {
-	var deleteBtn = '';
+	var deleteBtn = 'icons/delete.svg';
 	for (var i = 0; i < todo.length; i++) {
 		if (todo[i].checked === true) {
 			deleteBtn = 'icons/delete.svg';
@@ -135,7 +136,7 @@ function displayNewCard(todo) {
 			</container>
 			<container class="task__card_footer_container">	
 				<button class="task__card_urgent" type="button"><img class="task__card_urgent_icon" src="icons/urgent.svg" alt="Lighting bolt urgent icon"><p class="urgent__text">URGENT</p></button>
-				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src=${deleteBtn} alt="Cross mark delete icon"><p class="delete__text">DELETE</p></button>
+				<button class="task__card_delete" type="button"><img class="task__card_delete_icon" src=${deleteBtn}><p class="delete__text">DELETE</p></button>
 			</container>	
 		</section>`)
 	clearAll();
@@ -247,12 +248,12 @@ function checkTaskCompletion(event, array, obj) {
 	if (obj.tasks.every(function(item) {
 		return item.checkBtn === true;
 	})) {
-		checkDelete.disabled = false;
 		obj.checked = true;
-		checkDelete.setAttribute('src', 'icons/delete.svg')
-	} else {
-		checkDelete.disabled = true;
-		obj.checked = false;
+		checkDelete.disabled = false;
 		checkDelete.setAttribute('src', 'icons/delete-active.svg')
+	} else {
+		obj.checked = false;
+		checkDelete.disabled = true;
+		checkDelete.setAttribute('src', 'icons/delete.svg')
 	}
 }
