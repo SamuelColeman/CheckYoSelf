@@ -258,3 +258,58 @@ h2 {
 	font-size: 12px;
   color: #1F1F3D;
 }
+
+@media screen and (max-width: 1400px) {
+	.header__search_container {
+		margin-left: 25%;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	button {
+		font-size: 100%;
+	}
+
+	.task__card_display {
+		column-count: 1;
+	}
+
+	.header__search_container {
+		margin-left: 10%;
+	}
+}
+
+@media screen and (max-width: 665px) {
+	body {
+	grid-template-areas: 
+			"head" 
+			"sidebar"
+			"card";
+	grid-template-columns: 100% auto;
+	grid-template-rows: 15% auto;
+	height: 100vh;
+	}
+
+	header {
+		align-items: center;
+		flex-direction: column;
+	}
+
+	.header__title {
+		justify-content: center;
+		margin: 0;
+	}
+
+	.header__search_container {
+		align-items: center;
+		margin: 0;
+	}
+
+	.header__search_input,
+	.header__search_icon {
+		margin-top: 0;
+	}
+
+	.nav__task_item_icon {
+		width: 75%;
+	}
