@@ -266,15 +266,10 @@ function checkTaskCompletion(event, array, obj) {
 	})) {
 		console.log(checkDelete)
 		obj.checked = true;
-		checkDelete.removeAttribute('disabled')
 		checkDelete.setAttribute('src', 'icons/delete-active.svg')
-		console.log(checkDelete.disabled)
 	} else {
-		console.log(checkDelete)
 		obj.checked = false;
-		checkDelete.setAttribute('disabled', null)
 		checkDelete.setAttribute('src', 'icons/delete.svg')
-		console.log(checkDelete.disabled)
 	}
 };
 
