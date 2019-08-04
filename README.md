@@ -4,7 +4,7 @@
 ## General Info
 
 A project for deeping my understanding of semantic HTML, clean & organized CSS styles, DRY Javascript, and localStorage to persist data in Turing's Front-End Engineering course, Module 1.
-Repository can be found <a href="https://github.com/SamuelColeman/CheckYoSelf">here</a> and the project specs can be found <a href="https://frontend.turing.io/projects/check-yo-self.html">here</a>. The live page can be accessed <a>here</a>.
+Repository can be found <a href="https://github.com/SamuelColeman/CheckYoSelf">here</a> and the project specs can be found <a href="https://frontend.turing.io/projects/check-yo-self.html">here</a>. The live page can be accessed <a href="https://samuelcoleman.github.io/CheckYoSelf/">here</a>.
 
 ## Contributors 
 
@@ -33,11 +33,11 @@ Check Yo' Self is the final solo project I was assigned as a mod one student at 
 
 ![Provided static comp for mobile](icons/check-yo-self-comp-4.jpg "Provided static comp for mobile")
 
-![Desktop Version No Ideas]( "Desktop layout without ideas")
+![Desktop Version Without ToDo Lists](icons/checkyoself-1.png "Desktop layout without todo lists")
 
-![Desktop Version With Ideas]( "Desktop layout with ideas")
+![Desktop Version With ToDo Lists](icons/checkyoself-2.png "Desktop layout with todo lists")
 
-![Mobile Version With Ideas]( "Mobile layout with ideas")
+![Mobile Version With ToDo Lists](icons/checkyoself-3.png "Mobile layout with todo lists")
 
 ## Features
 
