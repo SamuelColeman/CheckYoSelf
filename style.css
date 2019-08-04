@@ -33,6 +33,7 @@ ul {
 h4 {
 	color: #FFFFFF;
 	font-size: 15px;
+	font-weight: normal;
 }
 
 input {
@@ -60,10 +61,45 @@ h2 {
 	padding: 2%
 }
 
+.header__title {
+	color: #FFFFFF;
+  align-items: center;
+  display: flex;
+  margin-left: 2%;
+  }
+
+.header__search_container {
+	display: flex;
+	flex-direction: row;
+	margin-left: 55%;
+}
+
+.header__search_icon {
+	background-color: #C7D3D8;
+  border-radius: 2px 0 0 2px;
+	height: 34%;
+	margin-top: 17px;
+	padding: 3%;
+}
+
+.header__search_input {
+	border-left: 0;
+	border-radius: 0;
+	display: flex;
+	height: 34%;
+	margin-top: 16px;
+	padding: 3%;
+}
+
 .nav {
 	background-color: #587A8A;
 	grid-area: sidebar;
 	padding: 5%;
+}
+
+.nav__task_container {
+	display: flex;
+	flex-direction: row;
 }
 
 .nav__task_title_input,
@@ -71,11 +107,6 @@ h2 {
 	height: 50px;
 	margin: 2% 0;
 	width: 100%;
-}
-
-.nav__task_container {
-	display: flex;
-	flex-direction: row;
 }
 
 .nav__task_item_btn {
@@ -109,39 +140,14 @@ h2 {
 }
 
 .nav__urgency_filter {
-	border-top: 2px solid white;
+	border-top: 2px solid #3C6577;
 	margin-top: 30px;
   padding-top: 10px;
 }
 
-.header__search_container {
-	display: flex;
-	flex-direction: row;
-	margin-left: 55%;
+.nav__filter_btn:focus {
+	background-color: #EF4A23;
 }
-
-.header__search_input {
-	border-left: 0;
-	border-radius: 0
-	display: flex;
-	height: 34%;
-	margin-top: 16px;
-	padding: 3%;
-}
-
-.header__search_icon {
-	background-color: #F2F6F7;
-	height: 34%;
-	margin-top: 17px;
-	padding: 3%;
-}
-
-.header__title {
-	color: #FFFFFF;
-  align-items: center;
-  display: flex;
-  margin-left: 2%;
-  }
 
 .task__card_id {
 	background-color: #FAFDFF;
