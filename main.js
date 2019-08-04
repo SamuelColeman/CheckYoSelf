@@ -8,9 +8,11 @@ var navTaskList = document.querySelector('.nav__task_list');
 var navTaskItemBtn = document.querySelector('.nav__task_item_btn');
 var navClearBtn = document.querySelector('.nav__clear_btn');
 var headerSearchInput = document.querySelector('.header__search_input');
+var navFilterBtn = document.querySelector('.nav__filter_btn');
 
 navMakeTaskBtn.addEventListener('click', pressSaveBtn);
-navClearBtn.addEventListener('click', clearAll)
+navClearBtn.addEventListener('click', clearAll);
+navFilterBtn.addEventListener('click', filterUrgent);
 taskCardDisplay.addEventListener('click', cardEventHandler);
 navTaskItemBtn.addEventListener('click', createTaskList);
 navTaskList.addEventListener('click', navEventHandler);
@@ -174,13 +176,13 @@ function displayNewTask(task) {
 };
 
 function pressSaveBtn(event) {
-		event.preventDefault();
-		if (event.target.classList.contains('nav__make_task_btn')) {
+	event.preventDefault();
+	if (event.target.classList.contains('nav__make_task_btn')) {
 			makeNewCard();
 	}
-		cardPlaceholder();
-		navTaskTitleInput.value = '';
-		disableBtn();
+	cardPlaceholder();
+	navTaskTitleInput.value = '';
+	disableBtn();
 };
 
 function findIndex(event, globalArray, className) {
@@ -275,12 +277,12 @@ function checkTaskCompletion(event, array, obj) {
 function updateUrgent(event) {
 	var globalID = findIndex(event, globalArray, 'task__card_id');
 	globalArray[globalID].updateToDo();
-	updateUrgency(event, globalArray[globalID].urgent);
+	UrgentStyle(event, globalArray[globalID].urgent);
 	toggleUrgentStyle(event);
 	globalArray[globalID].setLocalStorage(globalArray);
 };
 
-function updateUrgency(event, urgency) {
+function UrgentStyle(event, urgency) {
 	var urgentBtn = event.target.closest('.task__card_id').querySelector('.task__card_urgent_icon');
 	if (urgency === true) {
 		urgentBtn.setAttribute('src', 'icons/urgent-active.svg')
@@ -299,11 +301,22 @@ function toggleUrgentStyle(event) {
 
 function filterSearch() {
 	var searchStr = headerSearchInput.value.toUpperCase();
-	var newArr = globalArray.filter(function(search){
+	var newArray = globalArray.filter(function(search){
 	return (search.title.toUpperCase().includes(searchStr));
 	})
 		taskCardDisplay.innerHTML = '';
-		newArr.map(function(search) {
+		newArray.map(function(search) {
 		displayNewCard(search);
 	})
 };
+
+function filterUrgent() {
+	var newArray = globalArray.filter(function(search){
+	return (search.urgent === true);
+	})
+		taskCardDisplay.innerHTML = '';
+		newArray.map(function(search) {
+		displayNewCard(search);
+	})
+};
+
