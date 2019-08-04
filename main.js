@@ -18,13 +18,6 @@ headerSearchInput.addEventListener('keyup', filterSearch);
 window.addEventListener('load', pageLoad);
 checkInputFields();
 
-function pageLoad(){
-	persistedCards();
-	reinstantiateCard();
-	cardPlaceholder();
-	disableBtn();
-	};
-
 function cardEventHandler(event) {
 	if (event.target.classList.contains('task__card_delete_icon')) {
     deleteCard(event);
@@ -42,6 +35,13 @@ function navEventHandler(event) {
     deleteTask(event);
   }
 };
+
+function pageLoad(){
+	persistedCards();
+	reinstantiateCard();
+	cardPlaceholder();
+	disableBtn();
+	};
 
 function cardPlaceholder() {
   if (globalArray.length < 1) {
@@ -151,7 +151,7 @@ function displayNewCard(todo) {
 			<container class="task__card_footer_container">	
 				<form class="task__card_urgent"><img class="task__card_urgent_icon" type="button" src=${urgentBtn} alt="Lighting bolt urgent icon"><p class="urgent__text ${urgentStyle[2]}">URGENT</p>
 				</form>
-				<form class="task__card_delete"><img class="task__card_delete_icon" type="button" alt="Delete icon" src=${deleteBtn}><p class="delete__text ${urgentStyle[3]}">DELETE</p>
+				<form class="task__card_delete"><img src=${deleteBtn} class="task__card_delete_icon" type="button" alt="Delete icon"><p class="delete__text ${urgentStyle[3]}">DELETE</p>
 				</form>
 			</container>	
 		</section>`)
@@ -259,20 +259,20 @@ function toggleItalic(event) {
 
 function checkTaskCompletion(event, array, obj) {
 	var checkDelete = event.target.closest('.task__card_id').querySelector('.task__card_delete_icon');
-	if (obj.tasks.every(function(item) {
-		  return item.checkBtn === true;
+	if (obj.tasks.every(function(tasks) {
+		  return tasks.checkBtn === true;
 	})) {
 		console.log(checkDelete)
 		obj.checked = true;
-		// checkDelete.disabled = false;
-		checkDelete.classList.remove('disabled')
+		checkDelete.disabled = false;
 		checkDelete.setAttribute('src', 'icons/delete-active.svg')
+		console.log(checkDelete.disabled)
 	} else {
 		console.log(checkDelete)
 		obj.checked = false;
-		// checkDelete.disabled = true;
-		checkDelete.classList.add('disabled')
+		checkDelete.disabled = true;
 		checkDelete.setAttribute('src', 'icons/delete.svg')
+		console.log(checkDelete.disabled)
 	}
 };
 
