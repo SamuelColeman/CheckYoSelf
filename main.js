@@ -194,9 +194,11 @@ function findIndex(event, globalArray, className) {
 
 function deleteCard(event) {
   var cardIndex = findIndex(event, globalArray, 'task__card_id');
-    event.target.parentNode.parentNode.parentNode.remove();
-    globalArray[cardIndex].deleteFromStorage(cardIndex);
-  	cardPlaceholder();
+  	if (globalArray[cardIndex].checked === true) {
+    	event.target.parentNode.parentNode.parentNode.remove();
+    	globalArray[cardIndex].deleteFromStorage(cardIndex);
+  		cardPlaceholder();
+  }
 };
 
 function deleteTask(event) {
@@ -264,13 +266,13 @@ function checkTaskCompletion(event, array, obj) {
 	})) {
 		console.log(checkDelete)
 		obj.checked = true;
-		checkDelete.disabled = false;
+		checkDelete.removeAttribute('disabled')
 		checkDelete.setAttribute('src', 'icons/delete-active.svg')
 		console.log(checkDelete.disabled)
 	} else {
 		console.log(checkDelete)
 		obj.checked = false;
-		checkDelete.disabled = true;
+		checkDelete.setAttribute('disabled', null)
 		checkDelete.setAttribute('src', 'icons/delete.svg')
 		console.log(checkDelete.disabled)
 	}
