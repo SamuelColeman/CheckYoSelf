@@ -25,9 +25,13 @@ Check Yo' Self is the final solo project I was assigned as a mod one student at 
 
 ## Screenshots
 
-![Provided static comp for desktop]( "Provided static comp for desktop")
+![Provided static comp for desktop](icons/check-yo-self-comp-1.jpg "Provided static comp for desktop")
 
-![Provided static comp for mobile]( "Provided static comp for mobile")
+![Provided static comp for desktop](icons/check-yo-self-comp-2.jpg "Provided static comp for desktop")
+
+![Provided static comp for desktop](icons/check-yo-self-comp-3.jpg "Provided static comp for desktop")
+
+![Provided static comp for mobile](icons/check-yo-self-comp-4.jpg "Provided static comp for mobile")
 
 ![Desktop Version No Ideas]( "Desktop layout without ideas")
 
